@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">OtherMirror</string>
+    <string name="app_name">SmartMirror</string>
+    <string name="title_activity_mirror_settings">MirrorSettings</string>
+    <string name="youtube">youtube</string>
+    <string name="youtube_go"><![CDATA[youtube ------>]]></string>
+    <string name="Name" >Name</string>
+    <string name="Country_code">Country code</string>
+    <string name="Address">Address</string>
+    <string name="Height">Height</string>
+    <string name="Weight" >Weight</string>
+    <string name="Email">Email</string>
+    <string name="Quotes" >Quotes</string>
+    <string name="WiFi">WiFi</string>
+    <string name="WifI">Wifi For the Mirror</string>
+    <string name="Password">Password</string>
+    <string name="bluetooth_send_textview">Send Configurations</string>
+    <string name="Goto">Go to</string>
 </resources>
