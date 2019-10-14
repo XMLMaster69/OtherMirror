@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartMirror</string>
+    <string name="app_name">OtherMirror</string>
     <string name="title_activity_mirror_settings">MirrorSettings</string>
     <string name="youtube">youtube</string>
     <string name="youtube_go"><![CDATA[youtube ------>]]></string>

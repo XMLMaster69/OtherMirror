@@ -17,7 +17,7 @@ public class Config_file {
 
 
     public Config_file(){
-        mJson_string = "";
+        mJson_string = "Json File";
     }
 
     public String getmJson_string() {
