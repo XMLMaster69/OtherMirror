@@ -5,9 +5,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 
 public class YoutubeSearcher extends AppCompatActivity {
@@ -30,7 +28,7 @@ public class YoutubeSearcher extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "youtube", Toast.LENGTH_SHORT);
             }
         }
-        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<String> arrayList = new ArrayList<String>();
         arrayList.add("youtubevideo 1");
         arrayList.add("youtubevideo 2");
         arrayList.add("youtubevideo 3");

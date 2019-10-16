@@ -7,16 +7,14 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "config_file")
-public class Config_file {
+public class ConfigFile {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     public int ID;
 
-
     public String mJson_string;
 
-
-    public Config_file(){
+    public ConfigFile(){
         mJson_string = "Json File";
     }
 

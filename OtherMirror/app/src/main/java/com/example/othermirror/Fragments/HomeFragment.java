@@ -13,14 +13,20 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.othermirror.Database.ConfigRepository;
 import com.example.othermirror.MirrorSettings;
 import com.example.othermirror.R;
 import com.example.othermirror.YoutubeSearcher;
+import com.example.othermirror.Configuration_model.ConfigFile;
 
 public class HomeFragment extends Fragment {
     ImageView mirror_settings_img;
     ImageView youtube_img;
     ImageView BT_conf_img;
+
+    private ConfigRepository configRepository;
+    ConfigFile configFile;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,6 +34,11 @@ public class HomeFragment extends Fragment {
         youtube_img = view.findViewById(R.id.youtube_img_click);
         mirror_settings_img = view.findViewById(R.id.mirror_settings);
         BT_conf_img = view.findViewById(R.id.BT_send_configurations_img);
+
+        configFile = new ConfigFile();
+        configFile.getmJson_string();
+
+        configRepository = new ConfigRepository(getActivity().getApplication());
 
         youtube_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,11 +80,12 @@ public class HomeFragment extends Fragment {
                 getActivity(), youtube_img, "imageShare"); // they share the same ID in XML file
         Intent intent = new Intent(getActivity(), YoutubeSearcher.class);
         startActivity(intent, activityOptionsCompat.toBundle());
-
     }
 
     public void click_send_conf(){
-        Toast.makeText(getActivity(), "Sending configurations", Toast.LENGTH_SHORT).show();
 
+        configFile.setmJson_string("hey");
+        Toast.makeText(getActivity(), "Sending configurations", Toast.LENGTH_SHORT).show();
+        configRepository.update(configFile);
     }
 }

@@ -6,13 +6,13 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.othermirror.Configuration_model.Config_file;
+import com.example.othermirror.Configuration_model.ConfigFile;
 import com.example.othermirror.Database.ConfigDao;
 import com.example.othermirror.Database.ConfigDatabase;
 import java.lang.ref.WeakReference;
 
 
-@Database(entities = {Config_file.class}, version = 1, exportSchema = false)
+@Database(entities = {ConfigFile.class}, version = 1, exportSchema = false)
 public abstract class ConfigDatabase extends RoomDatabase {
 
     public abstract  ConfigDao configDao(); // Dao object
