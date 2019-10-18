@@ -1,0 +1,27 @@
+{
+	"UserSettings": [
+	{
+		"Name": "Dennis",
+		"Age": "23",
+		"Country Code": "DK",
+		"City": "Aarhus"
+		}
+	],
+
+	"MirrorSettings":[
+	{
+		"One": "Weather",
+		"Two": "a",
+		"Three": "Time",
+		"Four": "b",
+		"Five": "c",
+		"Six": "d",
+		"Seven": "e",
+		"Eight": "f",
+		"Nine": "g",
+		"Ten": "h",
+		"Eleven": "News",
+		"Twelve": "Quote"
+	    }
+	] 
+}
