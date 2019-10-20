@@ -2,9 +2,12 @@
 	"UserSettings": [
 	{
 		"Name": "Dennis",
-		"Age": "23",
 		"Country Code": "DK",
-		"City": "Aarhus"
+		"City": "Aarhus",
+		"Height": "",
+		"Weight": "",
+		"Email": "",
+		"Quotes": ""
 		}
 	],
 

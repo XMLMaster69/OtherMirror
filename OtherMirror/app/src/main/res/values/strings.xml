@@ -15,4 +15,5 @@
     <string name="Password">Password</string>
     <string name="bluetooth_send_textview">Send Configurations</string>
     <string name="Goto">Go to</string>
+    <string name="City">City</string>
 </resources>

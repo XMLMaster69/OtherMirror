@@ -68,6 +68,7 @@ public class ConfigRepository {
             super.onPostExecute(aVoid);
             LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("config"));
         }
+
     }
 
 
@@ -77,6 +78,12 @@ public class ConfigRepository {
         protected Void doInBackground(final ConfigFile... config_files) {
             mConfigDao.delete(config_files[0]);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("config"));
         }
     }
 

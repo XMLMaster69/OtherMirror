@@ -1,6 +1,12 @@
 package com.example.othermirror;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -8,6 +14,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.othermirror.Configuration_model.ConfigFile;
 import com.example.othermirror.Fragments.HomeFragment;
@@ -16,7 +23,7 @@ import com.example.othermirror.Fragments.UserFragment;
 import com.facebook.stetho.Stetho;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.othermirror.Database.ConfigRepository;
-import com.example.othermirror.DatabaseService.DBServive;
+import com.example.othermirror.DatabaseService.DBService;
 
 public class MainActivity extends AppCompatActivity {
     ImageView mirror_settings;
@@ -24,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     ConfigFile configfile1;
     ConfigFile configfile2;
     ConfigRepository configRepository;
+    public DBService dbService;
+    boolean isBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +46,55 @@ public class MainActivity extends AppCompatActivity {
         configfile1 = new ConfigFile();
         configfile2 = new ConfigFile();
 
-        configRepository = new ConfigRepository(this.getApplication());
-        configRepository.remove(configfile1);
+        //Example on the repo
+        //configRepository = new ConfigRepository(this.getApplication());
+        //configRepository.remove(configfile1);
         //configRepository.remove(configfile2);
+
+        if(dbService != null){
+            Intent serviceIntent = new Intent(this, DBService.class);
+            startService(serviceIntent);
+        }
+
+        if(isBound){
+            Intent serviceIntent = new Intent(this, DBService.class);
+            bindService(serviceIntent, dbConnection, Context.BIND_AUTO_CREATE);
+        }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment()).commit();
     }
 
-   private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+   private ServiceConnection dbConnection = new ServiceConnection() {
+       @Override
+       public void onServiceConnected(ComponentName name, IBinder service) {
+           dbService = ((DBService.Servicebinder)service).getService();
+           Log.d("connected", "The databaseService has connected");
+           isBound = true;
+       }
+
+       @Override
+       public void onServiceDisconnected(ComponentName name) {
+           dbService = null;
+           Log.d("disconnected", "The database service has disconnected");
+           isBound = false;
+       }
+   };
+
+
+    @Override
+    protected void onStart() {
+        super.onStart(); // Should start the service
+        if(dbService == null){
+            Intent serviceIntent = new Intent(this, DBService.class);
+            startForegroundService(serviceIntent);
+        }
+
+        Log.d("register", "Brodcastrecevier starting");
+        //LocalBroadcastManager.getInstance(this).registerReceiver(); // MAKE THIS LATER
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
            new BottomNavigationView.OnNavigationItemSelectedListener() {
                @Override
                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -68,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                    return true;
                }
            };
+
 
 // Choose a fragment to start up with (and bottom navigation bar)
     private boolean loadFragment(Fragment fragment){

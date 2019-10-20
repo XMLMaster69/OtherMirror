@@ -35,15 +35,18 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.example.othermirror.DatabaseService.DBService;
 public class HomeFragment extends Fragment {
+
     ImageView mirror_settings_img;
     ImageView youtube_img;
     ImageView BT_conf_img;
     JSONObject obj;
     private ConfigRepository configRepository;
     ConfigFile configFile;
-    private Context context;
     private TextView json_txt;
+    private DBService configService;
+
 
     @Nullable
     @Override
@@ -52,9 +55,10 @@ public class HomeFragment extends Fragment {
         youtube_img = view.findViewById(R.id.youtube_img_click);
         mirror_settings_img = view.findViewById(R.id.mirror_settings);
         BT_conf_img = view.findViewById(R.id.BT_send_configurations_img);
-        json_txt = view.findViewById(R.id.Gson);
+
+        //json_txt = view.findViewById(R.id.Gson);
         configFile = new ConfigFile();
-        configFile.getmJson_string();
+        //configFile.getmJson_string();
 
         configRepository = new ConfigRepository(getActivity().getApplication());
         youtube_img.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +154,7 @@ public class HomeFragment extends Fragment {
 
     public void click_send_conf(){
 
-        configFile.setmJson_string("hey");
+        //configFile.setmJson_string("hey");
         Toast.makeText(getActivity(), "Sending configurations", Toast.LENGTH_SHORT).show();
         configRepository.update(configFile);
     }
