@@ -1,5 +1,6 @@
 package com.example.othermirror;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -15,14 +17,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.othermirror.Fragments.HomeFragment;
 
 public class MirrorSettings extends AppCompatActivity {
-
     Button cancel;
     Button done;
+    GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout); // For the transistion
+        setTitle("Mirror Settings");
+
+        gridView = (GridView) findViewById(R.id.GridView);
+
 
         setContentView(R.layout.activity_mirror_settings);
         cancel = (Button) findViewById(R.id.cancel_mirror_settings);

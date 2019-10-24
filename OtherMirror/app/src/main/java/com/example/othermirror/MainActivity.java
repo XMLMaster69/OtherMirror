@@ -3,7 +3,9 @@ package com.example.othermirror;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -28,12 +31,12 @@ import com.example.othermirror.DatabaseService.DBService;
 public class MainActivity extends AppCompatActivity {
     ImageView mirror_settings;
     Button youtube_btn;
-    ConfigFile configfile1;
-    ConfigFile configfile2;
+    ConfigFile configFile;
     ConfigRepository configRepository;
     public DBService dbService;
     boolean isBound = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,19 +44,15 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         loadFragment(new HomeFragment());
-
         enableStethos();
-        configfile1 = new ConfigFile();
-        configfile2 = new ConfigFile();
 
-        //Example on the repo
-        //configRepository = new ConfigRepository(this.getApplication());
-        //configRepository.remove(configfile1);
-        //configRepository.remove(configfile2);
+        configFile = new ConfigFile();
+        configRepository = new ConfigRepository(getApplication());
 
         if(dbService != null){
             Intent serviceIntent = new Intent(this, DBService.class);
-            startService(serviceIntent);
+            //startService(serviceIntent);
+            startForegroundService(serviceIntent);
         }
 
         if(isBound){
@@ -82,12 +81,15 @@ public class MainActivity extends AppCompatActivity {
    };
 
 
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStart() {
         super.onStart(); // Should start the service
         if(dbService == null){
             Intent serviceIntent = new Intent(this, DBService.class);
-            startForegroundService(serviceIntent);
+            //startForegroundService(serviceIntent);
+            //startService(serviceIntent);
         }
 
         Log.d("register", "Brodcastrecevier starting");
@@ -111,12 +113,12 @@ public class MainActivity extends AppCompatActivity {
                            selectedFragmet = new UserFragment();
                            break;
                    }
-
                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                            selectedFragmet).commit();
                    return true;
                }
            };
+
 
 
 // Choose a fragment to start up with (and bottom navigation bar)
@@ -129,13 +131,37 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         }
-
         return false;
     }
 
 
-    private void enableStethos() {
+   /* public void updateConfigFile(){
 
+        dbService.updateConfigFile(configfile);
+    }
+
+    public void addConfigFile(){
+        dbService.addConfigFile(configfile);
+    }
+
+    public void removeConfigFile(){
+        dbService.removeConfigFile(configfile);
+    }
+
+    public ConfigFile getallConfigs(){
+        dbService.getAllConfigs().get(0);
+        return null;
+    } */
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        configFile = new ConfigFile();
+        outState.putSerializable("config", configFile);
+    }
+
+
+    private void enableStethos() {
            /* Stetho initialization - allows for debugging features in Chrome browser
            See http://facebook.github.io/stetho/ for details
            1) Open chrome://inspect/ in a Chrome browse

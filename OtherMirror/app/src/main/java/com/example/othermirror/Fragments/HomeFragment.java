@@ -21,7 +21,6 @@ import com.example.othermirror.MirrorSettings;
 import com.example.othermirror.R;
 import com.example.othermirror.YoutubeSearcher;
 import com.example.othermirror.Configuration_model.ConfigFile;
-import com.example.othermirror.Models.UserSettings;
 //import com.example.othermirror.config_parse;
 import com.google.gson.Gson;
 
@@ -57,10 +56,8 @@ public class HomeFragment extends Fragment {
         BT_conf_img = view.findViewById(R.id.BT_send_configurations_img);
 
         //json_txt = view.findViewById(R.id.Gson);
-        configFile = new ConfigFile();
         //configFile.getmJson_string();
 
-        configRepository = new ConfigRepository(getActivity().getApplication());
         youtube_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +76,7 @@ public class HomeFragment extends Fragment {
         });
 
         //-------Testing JSON ----------------------------------------------
-        try{
+        /*try{
             JSONObject obj = new JSONObject(loadJSONFromAssets());
             JSONArray obj_array1 = obj.getJSONArray("UserSettings");
             JSONArray obj_array2 = obj.getJSONArray("MirrorSettings");
@@ -125,7 +122,7 @@ public class HomeFragment extends Fragment {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        } */
 
         return view;
     }
@@ -156,7 +153,6 @@ public class HomeFragment extends Fragment {
 
         //configFile.setmJson_string("hey");
         Toast.makeText(getActivity(), "Sending configurations", Toast.LENGTH_SHORT).show();
-        configRepository.update(configFile);
     }
 
 

@@ -1,7 +1,9 @@
 package com.example.othermirror.DatabaseService;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -21,29 +23,9 @@ import java.util.List;
 public class DBService extends JobIntentService {
     ConfigFile configfile;
     ConfigRepository configRepository;
+
     private final IBinder ibinder = new DBService.Servicebinder();
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        loadJSONFromAssets();
-
-        new AsyncTask<Object, Void, List<ConfigFile>>(){
-            @Override
-            protected List<ConfigFile> doInBackground(Object... objects) {
-                configfile = new ConfigFile();
-                configRepository = new ConfigRepository(getApplication());
-                return null;
-            }
-
-        }.execute();
-
-        Gson gson = new Gson();
-        String jsonString = loadJSONFromAssets();
-        Moviejsonparse(jsonString);
-        Log.d("JSON_PARSING", jsonString);
-    }
+    public boolean firstStart = false;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -55,14 +37,49 @@ public class DBService extends JobIntentService {
 
     }
 
-
     public class Servicebinder extends Binder {
         public DBService getService(){
             return DBService.this;
         }
     }
 
+    public DBService(){}
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        configfile = new ConfigFile();
+        configRepository = new ConfigRepository(this.getApplication());
+        SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
+
+        firstStart = preferences.getBoolean("firstStart", true);
+        if(firstStart){
+            addOnce();
+        }
+
+        loadJSONFromAssets();
+        String jsonString = loadJSONFromAssets();
+        ConfigFileParsing(jsonString); //This is the GSON formatting with the JSON file loaded from assets.
+        Log.d("JSON_PARSING", jsonString);
+
+        Gson gson = new Gson();
+        ConfigFile configFile = gson.fromJson(jsonString, ConfigFile.class);
+        Log.d("config_json", String.valueOf(configFile));
+
+    }
+
+    // Makes the database add only 1 object in the entire lifetime of the app
+    public void addOnce(){
+        addConfigFile(configfile);
+        SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("firstStart", false);
+        editor.apply();
+    }
+    public List<ConfigFile> getAllConfigs(){
+        return configRepository.updateAllconfigs();
+    }
     //Adding a configFile to your database
     public void addConfigFile(ConfigFile addconfigFile){
         configRepository.insert(addconfigFile);
@@ -77,7 +94,6 @@ public class DBService extends JobIntentService {
 
     //Removing the configFile. This needs to be made
     // so the configfile is gonna be in the base form.
-
     public ConfigFile removeConfigFile(ConfigFile removeConfigfile){
         configRepository.remove(removeConfigfile);
         return removeConfigfile;
@@ -101,7 +117,7 @@ public class DBService extends JobIntentService {
     }
 
 
-    public ConfigFile Moviejsonparse(String jsonString) {
+    public ConfigFile ConfigFileParsing(String jsonString) {
         Gson gson = new Gson();
         ConfigFile configFile = gson.fromJson(jsonString, ConfigFile.class);
         return configFile;

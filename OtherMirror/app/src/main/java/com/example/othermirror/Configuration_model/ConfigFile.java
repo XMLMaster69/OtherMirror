@@ -9,11 +9,14 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Entity(tableName = "config_file")
-public class ConfigFile {
+public class ConfigFile implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     public int ID;
+
 
     @SerializedName("Name")
     @Expose
@@ -27,14 +30,9 @@ public class ConfigFile {
     @Expose
     public String city;
 
-
-    @SerializedName("Height")
-    @Expose
-    public double height;
-
     @SerializedName("Weight")
     @Expose
-    public double weight;
+    public String weight;
 
 
     @SerializedName("Email")
@@ -45,6 +43,25 @@ public class ConfigFile {
     @SerializedName("Quotes")
     @Expose
     public String quotes;
+
+    public ConfigFile(){
+        name = "Dennis ";
+        countrycode = "DK";
+        city = "Bøvling";
+        weight = "75";
+        email = "denniskobberholm3@gmail.com";
+        quotes = "dinmor";
+    }
+
+    /*public ConfigFile(String name, String countrycode, String city,
+                        double height, double weight, String email, String quotes){
+        this.name = name;
+        this.countrycode = countrycode;
+        this.city = city;
+        this.weight = weight;
+        this.email = email;
+        this.quotes = quotes;
+    } */
 
     public String getName() {
         return name;
@@ -70,19 +87,11 @@ public class ConfigFile {
         this.city = city;
     }
 
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
@@ -102,9 +111,4 @@ public class ConfigFile {
         this.quotes = quotes;
     }
 
-    public ConfigFile(){
-        name = "dennis";
-        countrycode = "dk";
-        city = "aarhus";
-    }
 }

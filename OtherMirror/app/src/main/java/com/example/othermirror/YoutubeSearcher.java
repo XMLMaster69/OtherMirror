@@ -15,7 +15,7 @@ public class YoutubeSearcher extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        setTitle("Youtube Searcher");
 
         setContentView(R.layout.activity_youtube_searcher);
 
