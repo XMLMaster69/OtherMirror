@@ -15,6 +15,7 @@
         <activity android:name=".MirrorSettings"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat"
             ></activity>
 
         <activity android:name=".YoutubeSearcher"

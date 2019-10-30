@@ -17,7 +17,6 @@ public class ConfigFile implements Serializable {
     @NonNull
     public int ID;
 
-
     @SerializedName("Name")
     @Expose
     private String name;
@@ -34,16 +33,28 @@ public class ConfigFile implements Serializable {
     @Expose
     public String weight;
 
-
     @SerializedName("Email")
     @Expose
     public String email;
-
 
     @SerializedName("Quotes")
     @Expose
     public String quotes;
 
+
+    @SerializedName("MirrorConfigs")
+    @Expose
+    public int[] mirrorconfigs;
+
+    @SerializedName("WiFiName")
+    @Expose
+    public String wifiname;
+
+    @SerializedName("Password")
+    @Expose
+    public String password;
+
+    // Standard Constructor.
     public ConfigFile(){
         name = "Dennis ";
         countrycode = "DK";
@@ -51,18 +62,13 @@ public class ConfigFile implements Serializable {
         weight = "75";
         email = "denniskobberholm3@gmail.com";
         quotes = "dinmor";
+        wifiname = "";
+        password = "";
+        mirrorconfigs = new int[]{0, 0, 0, 0, 0, 0, 0};
+
     }
 
-    /*public ConfigFile(String name, String countrycode, String city,
-                        double height, double weight, String email, String quotes){
-        this.name = name;
-        this.countrycode = countrycode;
-        this.city = city;
-        this.weight = weight;
-        this.email = email;
-        this.quotes = quotes;
-    } */
-
+    //Usersettings getter and setter ---------------------------------------------------------
     public String getName() {
         return name;
     }
@@ -111,4 +117,29 @@ public class ConfigFile implements Serializable {
         this.quotes = quotes;
     }
 
+    //MirrorSettings getter and setter  -------------------------------------------------------
+    public int[] getMirrorconfigs() {
+        return mirrorconfigs;
+    }
+
+    public void setMirrorconfigs(int[] mirrorconfigs) {
+        this.mirrorconfigs = mirrorconfigs;
+    }
+
+    //WiFi getter and setter----------------------------------------------------------------
+    public String getWifiname() {
+        return wifiname;
+    }
+
+    public void setWifiname(String wifiname) {
+        this.wifiname = wifiname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

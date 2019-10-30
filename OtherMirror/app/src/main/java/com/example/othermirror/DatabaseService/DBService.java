@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class DBService extends JobIntentService {
+public class DBService extends Service {
     ConfigFile configfile;
     ConfigRepository configRepository;
 
@@ -30,11 +30,6 @@ public class DBService extends JobIntentService {
     @Override
     public IBinder onBind(Intent intent) {
         return ibinder;
-    }
-
-    @Override
-    protected void onHandleWork(@NonNull Intent intent) {
-
     }
 
     public class Servicebinder extends Binder {
@@ -51,6 +46,7 @@ public class DBService extends JobIntentService {
 
         configfile = new ConfigFile();
         configRepository = new ConfigRepository(this.getApplication());
+
         SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
 
         firstStart = preferences.getBoolean("firstStart", true);
@@ -80,6 +76,7 @@ public class DBService extends JobIntentService {
     public List<ConfigFile> getAllConfigs(){
         return configRepository.updateAllconfigs();
     }
+
     //Adding a configFile to your database
     public void addConfigFile(ConfigFile addconfigFile){
         configRepository.insert(addconfigFile);

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ConfigRepository configRepository;
     public DBService dbService;
     boolean isBound = false;
+    public static final String BROADCAST_OPTION = "config";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(dbService != null){
             Intent serviceIntent = new Intent(this, DBService.class);
-            //startService(serviceIntent);
-            startForegroundService(serviceIntent);
+            startService(serviceIntent);
+            //startForegroundService(serviceIntent);
         }
 
         if(isBound){
@@ -80,22 +81,26 @@ public class MainActivity extends AppCompatActivity {
        }
    };
 
-
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
     protected void onStart() {
         super.onStart(); // Should start the service
         if(dbService == null){
             Intent serviceIntent = new Intent(this, DBService.class);
-            //startForegroundService(serviceIntent);
             //startService(serviceIntent);
         }
-
-        Log.d("register", "Brodcastrecevier starting");
         //LocalBroadcastManager.getInstance(this).registerReceiver(); // MAKE THIS LATER
+        Intent serviceIntent = new Intent(this, DBService.class);
+        bindService(serviceIntent, dbConnection, Context.BIND_AUTO_CREATE);
+        Log.d("register", "Brodcastrecevier starting");
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(isBound) {
+            unbindService(dbConnection);
+            isBound = false;
+        }
+    }
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
            new BottomNavigationView.OnNavigationItemSelectedListener() {
                @Override
@@ -135,24 +140,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-   /* public void updateConfigFile(){
-
-        dbService.updateConfigFile(configfile);
-    }
-
-    public void addConfigFile(){
-        dbService.addConfigFile(configfile);
-    }
-
-    public void removeConfigFile(){
-        dbService.removeConfigFile(configfile);
-    }
-
-    public ConfigFile getallConfigs(){
-        dbService.getAllConfigs().get(0);
-        return null;
-    } */
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -175,6 +162,5 @@ public class MainActivity extends AppCompatActivity {
                 .enableWebKitInspector(
                         Stetho.defaultInspectorModulesProvider(this))
                 .build());
-
     }
 }

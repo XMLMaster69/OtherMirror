@@ -12,12 +12,11 @@ import com.example.othermirror.Database.ConfigDatabase;
 import java.lang.ref.WeakReference;
 
 
-@Database(entities = {ConfigFile.class}, version = 1, exportSchema = false)
+@Database(entities = {ConfigFile.class}, version = 3, exportSchema = false)
 public abstract class ConfigDatabase extends RoomDatabase {
 
     public abstract  ConfigDao configDao(); // Dao object
     private static volatile ConfigDatabase INSTANCE; // Makeing my Databaes a singleton
-    private static WeakReference<Context> weakcontext;
 
     static ConfigDatabase getDatabase(final Context context){
         if(INSTANCE == null){

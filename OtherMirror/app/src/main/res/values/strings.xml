@@ -16,4 +16,14 @@
     <string name="bluetooth_send_textview">Send Configurations</string>
     <string name="Goto">Go to</string>
     <string name="City">City</string>
+
+    <string-array name="list_widgets">
+        <item>Time</item>
+        <item>Calendar</item>
+        <item>Weather</item>
+        <item>News</item>
+        <item>Quotes</item>
+        <item>Weight</item>
+        <item>None</item>
+    </string-array>
 </resources>

@@ -72,7 +72,6 @@ public class ConfigRepository {
     }
 
 
-
     private class removeAsyncTask extends AsyncTask<ConfigFile, Void, Void> {
         @Override
         protected Void doInBackground(final ConfigFile... config_files) {
